@@ -8,12 +8,16 @@ const ListWrapper = styled.div`
   justify-content: center;
 `;
 
-export default function PokemonList({ data }) {
+export default function PokemonList({ data = [], onAdd }) {
   return (
     <ListWrapper>
-      {data.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon} />
-      ))}
+      {data.length > 0 ? (
+        data.map((pokemon) => (
+          <PokemonCard key={pokemon.id} pokemon={pokemon} onAdd={onAdd} />
+        ))
+      ) : (
+        <p>포켓몬 데이터가 없습니다.</p>
+      )}
     </ListWrapper>
   );
 }

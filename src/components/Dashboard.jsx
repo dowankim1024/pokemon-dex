@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { removePokemon } from "../redux/selectedSlice";
 import pokeballImg from "../assets/pokeball.png";
 
 const Dash = styled.div`
@@ -62,10 +60,7 @@ const RemoveButton = styled.button`
   font-size: 10px;
 `;
 
-export default function Dashboard() {
-  const selected = useSelector((state) => state.selected.pokemons); // Redux에서 선택된 포켓몬
-  const dispatch = useDispatch();
-
+export default function Dashboard({ selected, onRemove }) {
   return (
     <Dash>
       {[...Array(6)].map((_, index) => {
@@ -77,9 +72,7 @@ export default function Dashboard() {
                 <Img src={pokemon.img_url} alt={pokemon.korean_name} />
                 <p>{pokemon.korean_name}</p>
                 <Type>{pokemon.types.join(", ")}</Type>
-                <RemoveButton onClick={() => dispatch(removePokemon(pokemon.id))}>
-                  삭제
-                </RemoveButton>
+                <RemoveButton onClick={() => onRemove(pokemon.id)}>삭제</RemoveButton>
               </>
             ) : (
               <PokeballBackground />
