@@ -1,2 +1,2 @@
 pokemon-dex site using React
-https://pokemon-dex-hazel.vercel.app/dex
+https://pokemon-dex-kimdowans-projects.vercel.app/
