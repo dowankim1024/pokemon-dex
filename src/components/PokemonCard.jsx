@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { PokemonContext } from "../contexts/PokemonContext.jsx";
 
 const Card = styled.div`
   width: 120px;
@@ -48,7 +50,26 @@ const StyledLink = styled(Link)`
   align-items: center;
 `;
 
-export default function PokemonCard({ pokemon, onAdd }) {
+export default function PokemonCard({ pokemon }) {
+  const { selectedPokemons, addPokemon } = useContext(PokemonContext);
+
+  const handleAdd = () => {
+    const isDuplicate = selectedPokemons.some((p) => p.id === pokemon.id);
+    const isFull = selectedPokemons.length >= 6;
+
+    if (isDuplicate) {
+      alert("이미 선택한 포켓몬입니다!");
+      return;
+    }
+
+    if (isFull) {
+      alert("덱에는 최대 6마리만 담을 수 있습니다.");
+      return;
+    }
+
+    addPokemon(pokemon);
+  };
+
   return (
     <Card>
       <StyledLink to={`/detail?id=${pokemon.id}`}>
@@ -56,7 +77,7 @@ export default function PokemonCard({ pokemon, onAdd }) {
         <Name>{pokemon.korean_name}</Name>
         <Type>{pokemon.types.join(", ")}</Type>
       </StyledLink>
-      <AddButton onClick={() => onAdd(pokemon)}>추가</AddButton>
+      <AddButton onClick={handleAdd}>추가</AddButton>
     </Card>
   );
 }

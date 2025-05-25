@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { usePokemon } from "../contexts/PokemonContext";
 import pokeballImg from "../assets/pokeball.png";
 
 const Dash = styled.div`
@@ -60,11 +61,13 @@ const RemoveButton = styled.button`
   font-size: 10px;
 `;
 
-export default function Dashboard({ selected, onRemove }) {
+export default function Dashboard() {
+  const { selectedPokemons, removePokemon } = usePokemon();
+
   return (
     <Dash>
       {[...Array(6)].map((_, index) => {
-        const pokemon = selected[index];
+        const pokemon = selectedPokemons[index];
         return (
           <Slot key={index}>
             {pokemon ? (
@@ -72,7 +75,7 @@ export default function Dashboard({ selected, onRemove }) {
                 <Img src={pokemon.img_url} alt={pokemon.korean_name} />
                 <p>{pokemon.korean_name}</p>
                 <Type>{pokemon.types.join(", ")}</Type>
-                <RemoveButton onClick={() => onRemove(pokemon.id)}>삭제</RemoveButton>
+                <RemoveButton onClick={() => removePokemon(pokemon.id)}>삭제</RemoveButton>
               </>
             ) : (
               <PokeballBackground />
